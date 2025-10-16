@@ -9,3 +9,16 @@ export const GET_EMPLOYEE = gql`query GetAllEmployees {
     salary
   }
 }`
+
+
+export const GET_EMPLOYEE_DETAILS = gql`
+  query GetEmployeeDetails($getEmployeeDetailsId: ID!) {
+    getEmployeeDetails(id: $getEmployeeDetailsId) {
+      id
+      name
+      position
+      department
+      salary
+    }
+  }
+`;  

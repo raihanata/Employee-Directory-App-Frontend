@@ -98,11 +98,16 @@ const EmployeeTable = () => {
           ) : (
             paginatedEmployees.map((emp: any) => (
               <tr key={emp.id} className="hover:bg-gray-100">
-                <td className="border px-4 py-2">{emp.name}</td>
+                <td className="border px-4 py-2">
+                    
+                <Link href={`/employee/${emp.id}`} className="text-blue-600 hover:underline">
+                {emp.name}
+                </Link>
+                </td>
                 <td className="border px-4 py-2">{emp.position}</td>
                 <td className="border px-4 py-2">{emp.department}</td>
                 <td className="border px-4 py-2">
-                    <Link href={`${SERVER_URL}/employee/${emp.id}`}>view</Link>
+                    <Link href={`/employee/${emp.id}`}>view</Link>
                 </td>
               </tr>
             ))
