@@ -2,12 +2,35 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_EMPLOYEE } from "../graphql/queries"; // adjust path
+import { useQuery } from "@apollo/client/react";
 import EmployeeFilter from "./departmentFilter";
+import { gql } from "@apollo/client";
+
+const GET_EMPLOYEE = gql`query GetAllEmployees {
+  getAllEmployees {
+    id
+    name
+    position
+    department
+    salary
+  }
+}`
+
+interface Employee {
+  id: string;
+  name: string;
+  position: string;
+  department: string;
+  salary: number;
+}
+
+interface GetAllEmployeesData {
+  getAllEmployees: Employee[];
+}
 
 const EmployeeTable = () => {
-  const { data, loading, error } = useQuery(GET_EMPLOYEE);
+    console.log('error')
+  const { data, loading, error } = useQuery<GetAllEmployeesData>(GET_EMPLOYEE);
 
   const [selectedDept, setSelectedDept] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -65,7 +88,7 @@ const EmployeeTable = () => {
               </td>
             </tr>
           ) : (
-            paginatedEmployees.map((emp) => (
+            paginatedEmployees.map((emp: any) => (
               <tr key={emp.id} className="hover:bg-gray-100">
                 <td className="border px-4 py-2">{emp.name}</td>
                 <td className="border px-4 py-2">{emp.position}</td>

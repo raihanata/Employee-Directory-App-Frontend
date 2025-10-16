@@ -1,12 +1,11 @@
-import React from 'react'
+import EmployeeTable from "../components/employeeTable";
 
-const HomePage = () => {
+
+export default function EmployeesPage() {
   return (
-    <div>
-        {/* filter component and add button */}
-        {/* table component */}
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Employees</h1>
+      <EmployeeTable />
     </div>
-  )
+  );
 }
-
-export default HomePage
