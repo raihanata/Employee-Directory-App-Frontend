@@ -5,7 +5,9 @@ import React, { useState, useMemo } from "react";
 import { useQuery } from "@apollo/client/react";
 import EmployeeFilter from "./departmentFilter";
 import { gql } from "@apollo/client";
+import Link from "next/link";
 
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001'
 const GET_EMPLOYEE = gql`query GetAllEmployees {
   getAllEmployees {
     id
@@ -93,6 +95,9 @@ const EmployeeTable = () => {
                 <td className="border px-4 py-2">{emp.name}</td>
                 <td className="border px-4 py-2">{emp.position}</td>
                 <td className="border px-4 py-2">{emp.department}</td>
+                <td className="border px-4 py-2">
+                    <Link href={`${SERVER_URL}/employee/${emp.id}`}>view</Link>
+                </td>
               </tr>
             ))
           )}
