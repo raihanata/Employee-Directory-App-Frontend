@@ -4,19 +4,14 @@
 import React, { useState, useMemo } from "react";
 import { useQuery } from "@apollo/client/react";
 import EmployeeFilter from "./departmentFilter";
+
 import { gql } from "@apollo/client";
 import Link from "next/link";
+import { GET_EMPLOYEE } from "../graphql/queries";
+import AddEmployeeModal from "./employeeForm";
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001'
-const GET_EMPLOYEE = gql`query GetAllEmployees {
-  getAllEmployees {
-    id
-    name
-    position
-    department
-    salary
-  }
-}`
+
 
 interface Employee {
   id: string;
@@ -31,7 +26,11 @@ interface GetAllEmployeesData {
 }
 
 const EmployeeTable = () => {
-    console.log('error')
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  
+  const closeModal = () => setIsModalOpen(false);
   const { data, loading, error } = useQuery<GetAllEmployeesData>(GET_EMPLOYEE);
 
   const [selectedDept, setSelectedDept] = useState("All");
@@ -61,7 +60,8 @@ const EmployeeTable = () => {
 
   return (
     <div>
-      <EmployeeFilter
+      <div className="grid grid-cols-2">
+        <EmployeeFilter
         selectedDept={selectedDept}
         onSelectDept={(dept: any) => {
           setSelectedDept(dept);
@@ -73,7 +73,13 @@ const EmployeeTable = () => {
           setCurrentPage(1); // reset page
         }}
       />
-
+        <button
+          onClick={openModal}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          + Add Employee
+        </button>
+      </div>
       <table className="min-w-full border border-gray-300">
         <thead>
           <tr className="bg-gray-200">
@@ -132,6 +138,7 @@ const EmployeeTable = () => {
           </button>
         </div>
       )}
+      <AddEmployeeModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };
